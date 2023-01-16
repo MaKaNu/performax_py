@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <lib/PerformaxCom.h>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -9,30 +10,26 @@ int add(int i, int j) {
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(cmake_example, m) {
+PYBIND11_MODULE(py_performax, m) {
     m.doc() = R"pbdoc(
-        Pybind11 example plugin
+        Pybind11 performax
         -----------------------
 
-        .. currentmodule:: cmake_example
+        .. currentmodule:: py_performax
 
         .. autosummary::
            :toctree: _generate
 
-           add
-           subtract
+           fnPerformaxComGetNumDevices
     )pbdoc";
 
-    m.def("add", &add, R"pbdoc(
-        Add two numbers
+    // BOOL fnPerformaxComGetNumDevices(OUT LPDWORD lpNumDevices);
 
-        Some other explanation about the add function.
-    )pbdoc");
+    m.def("get_num_devices", &fnPerformaxComGetNumDevices, R"pbdoc(
+        Get performax devices
 
-    m.def("subtract", [](int i, int j) { return i - j; }, R"pbdoc(
-        Subtract two numbers
-
-        Some other explanation about the subtract function.
+        This function is used to get total number of all types of Performax and
+        Performax USB modules connected to the PC.
     )pbdoc");
 
 #ifdef VERSION_INFO
